@@ -17,8 +17,9 @@ No support for this module is provided by the Met Office and may break as the Da
 
 Datapoint for C++ example program and library code requires [libcurl ](https://curl.haxx.se/libcurl/) and [rapidJSON](https://github.com/Tencent/rapidjson) to compile.
 
-## Example Usage (lib files)
+## Example Usage
 
+### Lib Files
 ```cpp
 
 #include "datapoint/datapoint.h"
@@ -44,7 +45,7 @@ datapoint::forecast *forecast = weather.GetForecast();
 // Print out the site and next weather forecast
 cout << "Future Weather : " << weather.weather_codes[forecast[0].weatherType] << endl;
 ```
-###Current class
+### Current class
 ```cpp
   #define MAXHOURS 28 //Furthest away forecast - forecast[27].weatherType
 		class forecast {
