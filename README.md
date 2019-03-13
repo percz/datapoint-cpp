@@ -25,15 +25,15 @@ Datapoint for C++ example program and library code requires [libcurl ](https://c
 #include "datapoint/datapoint.h"
 
 //Create API object
-	datapoint::api weather;
+datapoint::api weather;
  
 //Set DataPoint API key as string.
- string key = "01234567-89ab-cdef-0123-456789abcdef"; //Get from https://www.metoffice.gov.uk/datapoint/api
-	weather.Setkey(key);
+std::string key = "01234567-89ab-cdef-0123-456789abcdef"; //Get from https://www.metoffice.gov.uk/datapoint/api
+weather.Setkey(key);
 
 //Set DataPoint latitude and longitude co-ords as floats.
- float lat = 52.634001, lon = 1.293240;
- weather.Setlocation(lat, lon);
+float lat = 52.634001, lon = 1.293240;
+weather.Setlocation(lat, lon);
 
 // Create object of current observation
 datapoint::observation observation = weather.GetObservation();
