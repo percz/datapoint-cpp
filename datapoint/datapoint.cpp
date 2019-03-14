@@ -44,7 +44,13 @@ size_t write_curlbuffer(void *ptr, size_t size, size_t nmemb, curlbuffer *data) 
 
 rapidjson::Document datapoint::api::Call(std::string func, bool isForecast) {
 
-	CURL *connection;
+    if(key == "" || func == "") {
+    	//TODO: Invalid key or func request, deal with it safely. Maybe return an error in JSON format or something.
+    	cout << "Couldn't create valid payload for Datapoint. Crashed instead of wasting a request." << endl ;
+    	exit(1);
+    }
+	
+    CURL *connection;
     curlbuffer curlbuffer;
     fstream curlfile("content.json", ios_base::out | ios_base::ate);
     string curlstream;
