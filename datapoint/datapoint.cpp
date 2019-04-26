@@ -47,9 +47,9 @@ rapidjson::Document datapoint::api::Call(std::string func, bool isForecast) {
     if(key == "" || func == "") {
     	//TODO: Invalid key or func request, deal with it safely. Maybe return an error in JSON format or something.
     	cout << "Couldn't create valid payload for Datapoint. Crashed instead of wasting a request." << endl ;
-    	exit(1);
+    	throw 1;
     }
-	
+
     CURL *connection;
     curlbuffer curlbuffer;
     fstream curlfile("content.json", ios_base::out | ios_base::ate);
@@ -62,10 +62,9 @@ rapidjson::Document datapoint::api::Call(std::string func, bool isForecast) {
     (isForecast) ? url = url_forecast : url = url_obs ; //Allow both forecast and observation calls
     ( std::strstr(func.c_str(),"?") ) ? func += "&" : func += "?" ; //Append GET as needed
 
-
     std::string payload = url + "/" + func + "key=" + key ;
 
-    //cout << payload << endl; //XXX: Uncomment to see what the URL used is when debugging.
+    //cout << "Datapoint Payload: " << payload << endl; //XXX: Uncomment to see what the URL used is when debugging.
 
     curl_easy_setopt(connection, CURLOPT_URL, payload.c_str());
 	curl_easy_setopt(connection, CURLOPT_TIMEOUT, 10); // Don't wait forever, time out after 10 seconds
@@ -77,16 +76,21 @@ rapidjson::Document datapoint::api::Call(std::string func, bool isForecast) {
 	CURLcode errorCode =  curl_easy_perform(connection);
 	curl_easy_cleanup(connection);
     if (errorCode == CURLE_OK) {
-
     	rapidjson::Document json;
-    	json.Parse(curlstream.c_str());
 
-    	return json;
+        if (json.Parse(curlstream.c_str()).HasParseError()) {
+        	//TODO: JSON Failed, deal with it safely. Maybe return an error in JSON format, throw, or something.
+        	cout << "DataPoint received invalid JSON code and could not parse it." << endl ;
+        	throw 1;
+        } else {
+        	return json;
+        }
+
     } else {
-    	//TODO: HTTP Failed, deal with it safely. Maybe return an error in JSON format or something.
+    	//TODO: HTTP Failed, deal with it safely. Maybe return an error in JSON format, throw, or something.
     	cout << "Error: " << errorCode << endl ;
     	cout << "DataPoint has not returned any data, this could be due to an incorrect API key" << endl ;
-    	exit(1);
+    	throw 1;
     }
     curl_global_cleanup();
 
@@ -177,8 +181,11 @@ datapoint::observation datapoint::api::GetObservation() {
 		( (*itr).HasMember("unitaryAuthArea") ) ? observation_area = (*itr)["unitaryAuthArea"].GetString() : observation_area = "" ;
 	}
 
+
 	std::string func = to_string(observation_id) + "?res=hourly" ;
 	json = api::Call(func , OBSERVATION) ;
+
+	assert(json.IsObject());
 
 	const rapidjson::Value& days = json["SiteRep"]["DV"]["Location"]["Period"];
 
@@ -286,5 +293,3 @@ datapoint::forecast * datapoint::api::GetForecast() {
 
 	return frcst;
 };
-
-
