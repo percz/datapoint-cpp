@@ -31,8 +31,8 @@ datapoint::api weather;
 std::string key = "01234567-89ab-cdef-0123-456789abcdef"; //Get from https://www.metoffice.gov.uk/datapoint/api
 weather.Setkey(key);
 
-//Set DataPoint latitude and longitude co-ords as floats.
-float lat = 52.634001, lon = 1.293240;
+//Set DataPoint latitude and longitude co-ords as double.
+double lat = 52.634001, lon = 1.293240;
 weather.Setlocation(lat, lon);
 
 // Create object of current observation
