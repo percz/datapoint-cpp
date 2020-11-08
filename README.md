@@ -1,3 +1,7 @@
+The Met Office has annouced it is moving to a new platform called "Datahub" that uses a different style API then it's Datapoint. This repo has therfor been archived. 
+
+https://www.metoffice.gov.uk/services/data/datapoint/notifications/weather-datahub
+
 # Datapoint for C++
 
 A C++ Library for accessing weather data via the Met Office's open data API known as DataPoint.
