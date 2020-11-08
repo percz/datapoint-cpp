@@ -1,4 +1,4 @@
-The Met Office has annouced it is moving to a new platform called "Datahub" that uses a different style API then it's Datapoint. This repo has therfor been archived. 
+The Met Office has annouced it is moving to a new platform called "Datahub" that uses a different style API than Datapoint. This repo has therefore been archived. 
 
 https://www.metoffice.gov.uk/services/data/datapoint/notifications/weather-datahub
 
